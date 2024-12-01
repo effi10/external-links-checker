@@ -3,7 +3,7 @@
  * Plugin Name: External Link Checker
  * Plugin URI: https://github.com/effi10/external-links-checker
  * Description: Un plugin pour compter les liens sortants dans les posts et les afficher dans une colonne personnalisée, avec la possibilité de filtrer les liens sortants ayant une certaine classe CSS (permet de ne pas comptabiliser les liens obfusqués).
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Cédric GIRARD - effi10
  * Author URI: https://www.effi10.com/
  * License: GPL-2.0+
@@ -251,5 +251,56 @@ function elc_export_csv() {
 }
 add_action( 'admin_post_elc_export_csv', 'elc_export_csv' );
 
+function elc_register_dashboard_widget() {
+    wp_add_dashboard_widget(
+        'elc_dashboard_widget', // Widget ID
+        __( 'Ratio de posts avec des liens externes', 'external-links-counter' ), // Titre du widget
+        'elc_display_dashboard_widget' // Fonction de rendu
+    );
+}
+add_action( 'wp_dashboard_setup', 'elc_register_dashboard_widget' );
+
+function elc_display_dashboard_widget() {
+    // Récupérer tous les posts publiés
+    $args = array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+    );
+    $all_posts = get_posts( $args );
+    $total_posts = count( $all_posts );
+
+    // Récupérer les posts ayant au moins un lien externe
+    $args_with_links = array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'meta_query'     => array(
+            array(
+                'key'     => '_elc_external_links_count',
+                'value'   => 0,
+                'compare' => '>',
+                'type'    => 'NUMERIC',
+            ),
+        ),
+    );
+    $posts_with_links = get_posts( $args_with_links );
+    $total_with_links = count( $posts_with_links );
+
+    // Calculer le ratio
+    $ratio = $total_posts > 0 ? ( $total_with_links / $total_posts ) * 100 : 0;
+
+    // Afficher le ratio
+    echo '<p>';
+    echo sprintf(
+        __( 'Il y a <strong>%d</strong> posts au total, dont <strong>%d</strong> (%0.2f%%) ont au moins un lien externe.', 'external-links-counter' ),
+        $total_posts,
+        $total_with_links,
+        $ratio
+    );
+    echo '</p>';
+}
 
 
