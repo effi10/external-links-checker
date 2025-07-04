@@ -1,6 +1,13 @@
 # external-links-checker
 
-WordPress plugin designed to count the presence of outgoing links in posts, with the possibility to filter them according to a CSS class of your choice (to avoid counting obfuscated links)
+* **Contributeurs :** Cédric GIRARD
+* **Version :** 1.2.0
+* **Requiert WordPress :** 5.8 ou supérieur
+* **Testé jusqu'à :** 6.8
+* **Licence :** GPLv2 ou ultérieure
+* **URI de la licence :** https://www.gnu.org/licenses/gpl-2.0.html
+
+Plugin WordPress conçu pour compter le nombre de liens sortants dans les articles, avec la possibilité de les filtrer selon une classe CSS de votre choix (pour éviter de compter les liens masqués).
 
 ## Plugin dédié aux éditeurs de site
 
