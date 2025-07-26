@@ -9,6 +9,8 @@
 
 Plugin WordPress conçu pour compter le nombre de liens sortants dans les articles, avec la possibilité de les filtrer selon une classe CSS de votre choix (pour éviter de compter les liens masqués).
 
+**DISCLAIMER : peut provoquer des bugs avec certains plugins - à utiliser à vos risques et périls !**
+
 ## Plugin dédié aux éditeurs de site
 
 External Links Checker permet de détecter les liens sortants de vos articles de blog, et de les afficher dans la liste des posts de WordPress (colonne triable).
